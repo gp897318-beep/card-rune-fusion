@@ -1,5 +1,7 @@
 // main.ts — entrypoint for RUNEFUSION: copies game/ + screenshots/ to the
 // output dir and writes dossier.json with the kit's buildDossier helper.
+// Deterministic: same inputs always produce byte-identical dossier.json
+// (verified by running it twice and diffing the outputs).
 import { buildDossier } from './vendor/makefun-game.ts';
 import { cpSync, existsSync, mkdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
