@@ -38,7 +38,7 @@ function makeCard(id, element, type, value, cost) {
   else if (type === 'guard') rule = 'Gain ' + value + ' Block.';
   else if (type === 'mend') rule = 'Restore ' + value + ' Life.';
   else if (type === 'draw') rule = 'Draw ' + value + (value > 1 ? ' cards.' : ' card.');
-  else rule = 'Rune Burst: deal ' + value + ' damage, then ' + el.fusionBonus.toLowerCase() + '.';
+  else rule = 'Rune Burst: deal ' + value + ' damage + ' + el.fusionText.toLowerCase() + '.';
   return { id: id, element: element, type: type, value: value, cost: cost,
            name: CARD_NAMES[element][type], icon: el.icon, typeIcon: tp.icon,
            rule: rule, fused: false, wheelBonus: false };

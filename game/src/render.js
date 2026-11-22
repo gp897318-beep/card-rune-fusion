@@ -12,8 +12,8 @@ function cardEl(card, opts) {
   var effNote = '';
   if (opts.preview) {
     var p = opts.preview;
-    if (p.fused || p.wheel) effNote = '<div class="fusion-badge">⚡ ' +
-      (p.fused ? 'FUSED ×2 ' : '') + (p.wheel ? 'WHEEL +3' : '') + ' = ' + p.value + '</div>';
+    if (p.fused || p.wheel) effNote = '<div class="fusion-badge">' +
+      (p.fused ? '⚡ ×2 ' : '') + (p.wheel ? '+3 ' : '') + '= ' + p.value + '</div>';
   }
   d.innerHTML =
     '<div class="cost">' + card.cost + '</div>' +
@@ -28,7 +28,7 @@ function cardEl(card, opts) {
 
 function faceDownEl() {
   var d = document.createElement('div');
-  d.className = 'card face-down';
+  d.className = 'card face-down small';
   d.textContent = '✦';
   return d;
 }
@@ -64,7 +64,7 @@ function renderAll(g) {
   for (var i = 0; i < shown; i++) rh.appendChild(faceDownEl());
   if (g.rival.hand.length > 7) {
     var more = document.createElement('div');
-    more.className = 'card face-down'; more.textContent = '+' + (g.rival.hand.length - 7);
+    more.className = 'card face-down small'; more.textContent = '+' + (g.rival.hand.length - 7);
     rh.appendChild(more);
   }
 

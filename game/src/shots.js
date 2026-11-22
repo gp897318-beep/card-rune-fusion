@@ -78,9 +78,8 @@ function setupShot(scene) {
   lastPlays = [{ label: 'YOU PLAYED — FUSION ×2', card: hand[0], fused: true }];
   renderPlayZone(g, lastPlays);
   document.getElementById('callouts').classList.remove('hidden');
-  floater('−12 💥', '', 560, 70);
-  floater('⚡ FUSION ×2', 'bonus', 700, 150);
-  floater('🔥 BURN 2', 'bonus', 420, 200);
+  floater('−12 💥', '', 600, 20);
+  floater('🔥 BURN 2', 'bonus', 150, 120);
   renderAll(g);
   window.__shotReady = true;
 }
