@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>RUNEFUSION — Elemental Card Duel</title>
+<meta name="viewport" content="width=1280">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="app">
+  <!-- TITLE SCREEN -->
+  <div id="title-screen" class="screen">
+    <div class="title-runes"><span class="rune ember">🔥</span><span class="rune tide">💧</span><span class="rune stone">⛰️</span><span class="rune gale">🌀</span></div>
+    <h1 class="game-title">RUNEFUSION</h1>
+    <p class="tagline">Forge runes. Fuse elements. Break the Rival.</p>
+    <p class="objective">Reduce the Rival to 0 Life before yours falls. Fuse two cards of the
+    same element in one turn to double the second — and strike the element the Rival is gathering.</p>
+    <div class="howto">
+      <div><b>🔥 Ember</b> beats <b>🌀 Gale</b> &nbsp;·&nbsp; <b>🌀 Gale</b> beats <b>⛰️ Stone</b></div>
+      <div><b>⛰️ Stone</b> beats <b>💧 Tide</b> &nbsp;·&nbsp; <b>💧 Tide</b> beats <b>🔥 Ember</b></div>
+      <div>Same-element pair in one turn = <b>FUSION</b>: second card doubles + bonus.</div>
+      <div>Click a card to play it · Keys 1–7 play · SPACE ends turn · R restarts · M mutes</div>
+    </div>
+    <button id="begin-btn" class="big-btn">▶ &nbsp;Click to Begin</button>
+    <p class="foot">A rune-stone circle at dawn · 30 Life each · draw 2, gain 1 Ember per turn</p>
+  </div>
+
+  <!-- TABLE SCREEN -->
+  <div id="table-screen" class="screen hidden">
+    <header id="topbar">
+      <div class="brand">◆ RUNEFUSION</div>
+      <div class="objective-line">Objective: reduce the Rival to 0 Life before yours falls</div>
+      <div class="turn-box">TURN <span id="turn-num">1</span></div>
+      <div class="life-box rival-life">❤ RIVAL <b id="rival-life">30</b></div>
+      <div class="life-box you-life">❤ YOU <b id="you-life">30</b></div>
+      <button id="mute-btn" class="mini-btn">🔊 Sound</button>
+    </header>
+
+    <div id="main-row">
+      <!-- LEGEND -->
+      <aside id="legend">
+        <h3>RUNES &amp; RULES</h3>
+        <div class="leg-row"><span class="leg-ico ember">🔥</span><div><b>Ember</b><i>beats Gale · Fusion: burn 2</i></div></div>
+        <div class="leg-row"><span class="leg-ico tide">💧</span><div><b>Tide</b><i>beats Ember · Fusion: draw 1</i></div></div>
+        <div class="leg-row"><span class="leg-ico stone">⛰️</span><div><b>Stone</b><i>beats Tide · Fusion: +3 Block</i></div></div>
+        <div class="leg-row"><span class="leg-ico gale">🌀</span><div><b>Gale</b><i>beats Stone · Fusion: foe −1 Ember</i></div></div>
+        <hr>
+        <div class="leg-row"><span class="leg-ico type">⚔️</span><div><b>Strike</b><i>damage to Rival</i></div></div>
+        <div class="leg-row"><span class="leg-ico type">🛡️</span><div><b>Guard</b><i>gain Block</i></div></div>
+        <div class="leg-row"><span class="leg-ico type">✚</span><div><b>Mend</b><i>restore Life</i></div></div>
+        <div class="leg-row"><span class="leg-ico type">↻</span><div><b>Draw</b><i>draw cards</i></div></div>
+        <div class="leg-row"><span class="leg-ico type">✦</span><div><b>Trick</b><i>Rune Burst: big hit</i></div></div>
+        <hr>
+        <div class="wheel">
+          <div class="wheel-title">ELEMENT WHEEL</div>
+          <div class="wheel-line">🔥 &gt; 🌀 &gt; ⛰️ &gt; 💧 &gt; 🔥</div>
+          <div class="wheel-note">Beat the Rival's gathered element: <b>+3</b></div>
+        </div>
+        <div class="fusion-note">⚡ FUSION: two cards of one element in a turn — the 2nd doubles!</div>
+      </aside>
+
+      <!-- TABLE -->
+      <main id="table">
+        <div id="rival-area">
+          <div id="rival-portrait">🧙<span>RIVAL RUNEKEEPER</span></div>
+          <div id="rival-hand"></div>
+          <div id="rival-status">
+            <span id="rival-block">🛡️ Block 0</span>
+            <span id="rival-ember">◆ Ember 1</span>
+            <span id="rival-deck">Deck 24 · Discard 0</span>
+          </div>
+          <div id="telegraph">Rival is gathering <b id="telegraph-el">—</b>…</div>
+        </div>
+
+        <div id="mid-field">
+          <div id="play-zone"></div>
+          <div id="callouts" class="hidden">
+            <div class="callout c1">YOUR HAND — click a card to play it<span class="leader"></span></div>
+            <div class="callout c2">RIVAL'S HAND — cards hidden, count live<span class="leader"></span></div>
+            <div class="callout c3">EMBER — spend it to play cards<span class="leader"></span></div>
+            <div class="callout c4">FUSION! Same element twice = double power<span class="leader"></span></div>
+          </div>
+          <div id="flying-card" class="hidden"></div>
+          <div id="floaters"></div>
+        </div>
+
+        <div id="you-area">
+          <div id="you-status">
+            <span id="you-block">🛡️ Block 0</span>
+            <span id="you-ember">◆ Ember 1</span>
+            <span id="you-deck">Deck 24 · Discard 0</span>
+          </div>
+          <div id="you-hand"></div>
+          <div id="you-portrait">🧝<span>YOU — RUNEFORGER</span></div>
+        </div>
+      </main>
+
+      <!-- LOG -->
+      <aside id="side">
+        <h3>PLAY LOG</h3>
+        <div id="log"></div>
+        <div id="fusion-meter">
+          <div class="fm-title">THIS TURN'S ELEMENTS</div>
+          <div id="fusion-chips"></div>
+        </div>
+      </aside>
+    </div>
+
+    <footer id="controls">
+      <span>Click a card or press 1–7 to play · SPACE end turn · R restart · M mute</span>
+      <button id="end-turn-btn" class="big-btn small">END TURN ⏎</button>
+    </footer>
+  </div>
+
+  <!-- WIN SCREEN -->
+  <div id="win-screen" class="screen hidden">
+    <h1 class="end-title win">★ VICTORY ★</h1>
+    <p class="end-sub">The Rival's runes shatter. The circle is yours!</p>
+    <div class="stats" id="win-stats"></div>
+    <button class="big-btn" data-restart>↻ Play Again</button>
+  </div>
+
+  <!-- LOSS SCREEN -->
+  <div id="loss-screen" class="screen hidden">
+    <h1 class="end-title lose">☠ DEFEAT ☠</h1>
+    <p class="end-sub">Your runes fade… the Rival keeps the circle.</p>
+    <div class="stats" id="loss-stats"></div>
+    <button class="big-btn" data-restart>↻ Try Again</button>
+  </div>
+</div>
+<script src="src/audio.js"></script>
+<script src="src/cards.js"></script>
+<script src="src/state.js"></script>
+<script src="src/ai.js"></script>
+<script src="src/render.js"></script>
+<script src="src/input.js"></script>
+<script src="src/shots.js"></script>
+<script src="src/main.js"></script>
+</body>
+</html>
